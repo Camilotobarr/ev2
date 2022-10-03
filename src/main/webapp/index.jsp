@@ -9,8 +9,12 @@
     </head>
     <body>
         <h1>Formulario de contacto</h1>
-          <form action="Servletev1" method="post">
+          <form action="controlador" method="post">
             <ul>
+                <li>
+                    <label>ID:</label>
+                    <input type="text" name="id">
+                </li>
                 <li>
                     <label>Nombre:</label>
                     <input type="text" name="nombre">

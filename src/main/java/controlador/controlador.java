@@ -4,12 +4,20 @@
  */
 package controlador;
 
+import DAO.AlumnoDAO;
+import DAO.exceptions.RollbackFailureException;
+import entities.Alumno;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import proceso.proceso;
 
 /**
  *
@@ -30,29 +38,37 @@ public class controlador extends HttpServlet {
             throws ServletException, IOException {
         
         String strnombre = request.getParameter("nombre").toString();
+        String strid = request.getParameter("id").toString();
         String strapellido = request.getParameter("apellido").toString();
         String stredad = request.getParameter("edad").toString();
-        String strcorreo = request.getParameter("email").toString();
+        String stremail = request.getParameter("email").toString();
         String strcurso = request.getParameter("curso").toString();
         
         
+      //   proceso modelo = new proceso();
         
+     //   String resultado = modelo.resultado(strnombre,strapellido,strcurso);
         
+        Alumno alum = new Alumno();
         
+        alum.setId(Integer.parseInt(strid));
+        alum.setNombre (strnombre);
+        alum.setApellido (strapellido);
         
-        response.setContentType("text/html;charset=UTF-8");
-        try ( PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet controlador</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet controlador at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        AlumnoDAO dao =new AlumnoDAO();
+        
+        try {
+            dao.create(alum);
+        } catch (RollbackFailureException ex) {
+            Logger.getLogger(controlador.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (Exception ex) {
+            System.out.println("#### mensaje de error: " + ex.getMessage());
+            
+            Logger.getLogger(controlador.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        
+        request.getRequestDispatcher("final.jsp").forward(request, response);
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

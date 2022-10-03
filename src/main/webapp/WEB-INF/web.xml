@@ -13,4 +13,15 @@
             30
         </session-timeout>
     </session-config>
+    
+    <data-source>
+        <description>Datasource Alumnos</description>
+        <name>java:app/alumnosDS</name>
+        <class-name>org.postgresql.ds.PGSimpleDataSource</class-name>
+        <server-name>localhost</server-name>
+        <port-number>5432</port-number>
+        <database-name>Dataev2</database-name>
+        <user>postgres</user>
+        <password>admin</password>
+    </data-source>
 </web-app>
